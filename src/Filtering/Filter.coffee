@@ -79,6 +79,7 @@ Filter =
       item.test = Filter[item.type]
       delete item.type
 
+      item.recurs = item.recurs is 'on' if item.recurs
       switch item.result
         when 'hide'
           item.stubs = item.stubs is 'on' if item.stubs
@@ -89,19 +90,17 @@ Filter =
       newItems.push item
     Filter.items = newItems
 
-  # convert when importing
-
   node: ->
     return if @isClone
     for item in Filter.items
-      continue unless @isReply and 'reply' in item.post or !@isReply and 'op' in item.post and g.VIEW is 'index'
+      continue unless @isReply and 'reply' in item.post or !@isReply and 'op' in item.post
       for source in item.sources when (value = Filter[source] @) isnt false
         continue unless item.test item.filter, value
         switch item.result
           when 'hide'
-            @hide "Hidden by filtering the #{source}: #{item.filter}", item.stubs if @isReply or g.VIEW is 'index'
+            @hide "Hidden by filtering the #{source}: #{item.filter}", item.stubs, item.recurs if @isReply or g.VIEW is 'index'
           when 'highlight'
-            @highlight "Highlighted by filtering the #{source}: #{item.filter}", item.klass, item.pin
+            @highlight "Highlighted by filtering the #{source}: #{item.filter}", item.klass, item.pin, item.recurs
           when 'anonymize'
             Anonymize.node.call @
     return
@@ -242,6 +241,7 @@ Filter =
     filter  = $ '[name=filter]',  row
     # options
     boards  = $ '[name=boards]',  row
+    recurs  = $ '[name=recurs]',  row
     stubs   = $ '[name=stubs]',   row
     klass   = $ '[name=klass]',   row
     pin     = $ '[name=pin]',     row
@@ -254,14 +254,14 @@ Filter =
         option.selected = option.value in item.post
       for option in sources.options
         option.selected = option.value in item.sources
-      for node in [result, type, boards, stubs, klass, pin]
+      for node in [result, type, boards, recurs, stubs, klass, pin]
         node.value = item[node.name] if node.name of item
       filter.value = if item.type isnt 'regexp'
         item.filter.replace /\n/g, '\\n'
       else
         item.filter
 
-    for node in [enabled, post, sources, result, type, filter, boards, stubs, klass, pin]
+    for node in [enabled, post, sources, result, type, filter, boards, recurs, stubs, klass, pin]
       $.on node, 'change', Filter.onRowChange
     for name in ['save', 'remove']
       $.on $("[name=#{name}]", row), 'click', Filter[name]
@@ -289,10 +289,12 @@ Filter =
       item.boards = boards
     switch item.result
       when 'hide'
-        item.stubs = stubs if stubs = $('[name=stubs]', row).value
+        item.recurs = recurs if recurs = $('[name=recurs]', row).value
+        item.stubs  = stubs  if stubs  = $('[name=stubs]',  row).value
       when 'highlight'
-        item.klass = klass if klass = $('[name=klass]', row).value.trim()
-        item.pin   = pin   if pin   = $('[name=pin]',   row).value
+        item.recurs = recurs if recurs = $('[name=recurs]', row).value
+        item.klass  = klass  if klass  = $('[name=klass]',  row).value.trim()
+        item.pin    = pin    if pin    = $('[name=pin]',    row).value
     item.disabled = true unless $('[name=enabled]', row).checked
     JSON.stringify item
   save: ->

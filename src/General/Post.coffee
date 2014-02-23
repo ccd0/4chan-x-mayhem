@@ -221,13 +221,17 @@ class Post
     @nodes.post.previousElementSibling.hidden = false
     $.rm @nodes.stub
     delete @nodes.stub
-  highlight: (label, highlight, top) ->
-    @labels.push label
+  highlight: (label, highlight, top, recursively=false) ->
+    @labels.push label unless label in @labels
     unless highlight in @highlights
       @highlights.push highlight
       $.addClass @nodes.root, highlight
     if !@isReply and top
       @thread.isOnTop = true
+    if recursively
+      label = "Recursively highlighted for quoting No.#{@}"
+      Recursive.apply 'highlight', @, label, highlight, top, true
+      Recursive.add   'highlight', @, label, highlight, top, true
 
   kill: (file) ->
     if file

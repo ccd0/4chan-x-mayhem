@@ -315,6 +315,7 @@ body > .desktop:not(hr):not(.navLinks):not(#boardNavDesktop):not(#boardNavDeskto
 .filter-item .field[name="class"] {
   width: 110px;
 }
+.filter-item-options:not([data-result="hide"]):not([data-result="highlight"]) > select[name="recurs"],
 .filter-item-options:not([data-result="hide"]) > select[name="stubs"],
 .filter-item-options:not([data-result="highlight"]) > input[name="klass"],
 .filter-item-options:not([data-result="highlight"]) > select[name="pin"] {

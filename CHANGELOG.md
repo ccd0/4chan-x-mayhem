@@ -1,8 +1,9 @@
 - `Filter` changes:
  - New filter settings interface.
- - Multiple content can be filtered at once.
- - Filter can now either apply partial or exact string matching, along with regular expressions.
+ - Filters can now match multiple content at once.
+ - Filters can now either apply partial or exact string matching, along with regular expressions.
  - Filters can now anonymize.
+ - Filters can now control if hiding/higlighting applies recursively or not.
 - Compatibility fixes for Greasemonkey v2.
 
 ### 3.20.14 - *2014-06-13*
