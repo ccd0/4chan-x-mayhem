@@ -102,6 +102,8 @@ Filter =
             @hide "Hidden by filtering the #{source}: #{item.filter}", item.stubs if @isReply or g.VIEW is 'index'
           when 'highlight'
             @highlight "Highlighted by filtering the #{source}: #{item.filter}", item.klass, item.pin
+          when 'anonymize'
+            Anonymize.node.call @
     return
 
   partial: (string, value) ->
