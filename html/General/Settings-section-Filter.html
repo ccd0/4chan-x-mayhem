@@ -1,58 +1,60 @@
 <template>
 <div class="filter-item">
-  <div class="filter-item-main">
-    <input type="checkbox" name="enabled" title="Toggle this filter" checked>
-    <select name="post" title="Posts to match" multiple>
-      <option value="op" selected>Threads</option>
-      <option value="reply" selected>Replies</option>
-    </select>
-    <select name="sources" title="Content to match" multiple>
-      <option value="comment">Comment</option>
-      <option value="subject">Subject</option>
-      <option value="name">Name</option>
-      <option value="tripcode">Tripcode</option>
-      <option value="email">E-mail</option>
-      <option value="uniqueID">Unique ID</option>
-      <option value="filename">Filename</option>
-      <option value="MD5">Image MD5</option>
-      <option value="dimensions">Image dimensions</option>
-      <option value="filesize">Filesize</option>
-      <option value="capcode">Capcode</option>
-      <option value="flag">Flag</option>
-    </select>
-    <select name="result" title="Result">
-      <option value="hide">Hide</option>
-      <option value="highlight">Highlight</option>
-      <option value="anonymize">Anonymize</option>
-    </select>
-    <select name="type" title="Filter type">
-      <option value="partial">Partial</option>
-      <option value="exact">Exact</option>
-      <option value="regexp">RegExp</option>
-    </select>
-    <input name="filter" class="field" title="Filter" placeholder="Filter">
-    <button name="save" disabled>Save</button>
-    <button name="remove">Remove</button>
-  </div>
-  <div class="filter-item-options" data-result="hide">
-    <input name="boards" class="field" title="Specific boards" placeholder="Specific boards">
-    <select name="recurs" title="Recursive">
-      <option value="" selected disabled>Recursive</option>
-      <option value="">Default</option>
-      <option value="on">On</option>
-      <option value="off">Off</option>
-    </select>
-    <select name="stubs" title="Stubs">
-      <option value="" selected disabled>Stubs</option>
-      <option value="">Default</option>
-      <option value="on">On</option>
-      <option value="off">Off</option>
-    </select>
-    <input name="klass" class="field" title="Custom class" placeholder="Custom class">
-    <select name="pin" title="Pin">
-      <option value="">Pin</option>
-      <option value="off">Don't pin</option>
-    </select>
+  <input type="checkbox" name="enabled" title="Toggle this filter" checked>
+  <select name="post" title="Posts to match" multiple>
+    <option value="op" selected>Threads</option>
+    <option value="reply" selected>Replies</option>
+  </select>
+  <select name="sources" title="Content to match" multiple>
+    <option value="comment">Comment</option>
+    <option value="subject">Subject</option>
+    <option value="name">Name</option>
+    <option value="tripcode">Tripcode</option>
+    <option value="email">E-mail</option>
+    <option value="uniqueID">Unique ID</option>
+    <option value="filename">Filename</option>
+    <option value="MD5">Image MD5</option>
+    <option value="dimensions">Image dimensions</option>
+    <option value="filesize">Filesize</option>
+    <option value="capcode">Capcode</option>
+    <option value="flag">Flag</option>
+  </select>
+  <div class="filter-item-container">
+    <div class="filter-item-main">
+      <select name="result" title="Result">
+        <option value="hide">Hide</option>
+        <option value="highlight">Highlight</option>
+        <option value="anonymize">Anonymize</option>
+      </select>
+      <select name="type" title="Filter type">
+        <option value="partial">Partial</option>
+        <option value="exact">Exact</option>
+        <option value="regexp">RegExp</option>
+      </select>
+      <input name="filter" class="field" title="Filter" placeholder="Filter">
+      <button name="save" disabled>Save</button>
+      <button name="remove">Remove</button>
+    </div>
+    <div class="filter-item-options" data-result="hide">
+      <input name="boards" class="field" title="Specific boards" placeholder="Specific boards">
+      <select name="recurs" title="Recursive">
+        <option value="" selected disabled>Recursive</option>
+        <option value="">Default</option>
+        <option value="on">On</option>
+        <option value="off">Off</option>
+      </select>
+      <select name="stubs" title="Stubs">
+        <option value="" selected disabled>Stubs</option>
+        <option value="">Default</option>
+        <option value="on">On</option>
+        <option value="off">Off</option>
+      </select>
+      <input name="klass" class="field" title="Custom class" placeholder="Custom class">
+      <select name="pin" title="Pin">
+        <option value="">Pin</option>
+        <option value="off">Don't pin</option>
+      </select>
+    </div>
   </div>
 </div>
 </template>

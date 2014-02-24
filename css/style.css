@@ -300,20 +300,25 @@ body > .desktop:not(hr):not(.navLinks):not(#boardNavDesktop):not(#boardNavDeskto
 .section-main label {
   text-decoration: underline;
 }
+.filter-items:empty::before {
+  content: "No filters";
+  display: block;
+  text-align: center;
+}
 .filter-item {
+  display: flex;
+  align-items: center;
   margin: 5px 0;
+}
+.filter-item-container {
+  flex: 1;
 }
 .filter-item-main,
 .filter-item-option {
   display: flex;
-  align-items: center;
 }
 .filter-item .field[name="filter"] {
   flex: 1;
-}
-.filter-item .field[name="boards"],
-.filter-item .field[name="class"] {
-  width: 110px;
 }
 .filter-item-options:not([data-result="hide"]):not([data-result="highlight"]) > select[name="recurs"],
 .filter-item-options:not([data-result="hide"]) > select[name="stubs"],
