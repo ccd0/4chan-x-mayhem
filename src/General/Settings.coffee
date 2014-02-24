@@ -11,7 +11,7 @@ Settings =
       order: 111
 
     Settings.addSection 'Main',     Settings.main
-    Settings.addSection 'Filter',   Settings.filter
+    Settings.addSection 'Filter',   Filter.settings
     Settings.addSection 'QR',       Settings.qr
     Settings.addSection 'Sauce',    Settings.sauce
     Settings.addSection 'Rice',     Settings.rice
@@ -221,30 +221,13 @@ Settings =
     if data.Conf['WatchedThreads']
       data.Conf['watchedThreads'] = boards: ThreadWatcher.convert data.Conf['WatchedThreads']
       delete data.Conf['WatchedThreads']
+    for source in ['comment', 'subject', 'name', 'tripcode', 'email', 'uniqueID', 'filename', 'MD5', 'dimensions', 'filesize', 'capcode', 'flag']
+      continue unless source of data.Conf
+      (data.Conf.filters or= []).push Filter.convertText(data.Conf[source])...
     $.clear -> $.set data.Conf
   reset: ->
     if confirm 'Your current settings will be entirely wiped, are you sure?'
       $.clear -> window.location.reload() if confirm 'Reset successful. Reload now?'
-
-  filter: (section) ->
-    section.innerHTML = <%= importHTML('General/Settings-section-Filter') %>
-    select = $ 'select', section
-    $.on select, 'change', Settings.selectFilter
-    Settings.selectFilter.call select
-  selectFilter: ->
-    div = @nextElementSibling
-    if (name = @value) isnt 'guide'
-      $.rmAll div
-      ta = $.el 'textarea',
-        name: name
-        className: 'field'
-        spellcheck: false
-      $.get name, Conf[name], (item) ->
-        ta.value = item[name]
-      $.on ta, 'change', $.cb.value
-      $.add div, ta
-      return
-    div.innerHTML = <%= importHTML('General/Settings-section-Filter-guide') %>
 
   qr: (section) ->
     section.innerHTML = <%= importHTML('General/Settings-section-QR') %>

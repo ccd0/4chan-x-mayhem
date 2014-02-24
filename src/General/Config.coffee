@@ -78,42 +78,6 @@ Config =
     'Auto Watch':       [true,  'Automatically watch threads you start.']
     'Auto Watch Reply': [false, 'Automatically watch threads you reply to.']
     'Auto Prune':       [false, 'Automatically prune 404\'d threads.']
-  filter:
-    name: """
-      # Filter any namefags:
-      #/^(?!Anonymous$)/
-    """
-    uniqueID: """
-      # Filter a specific ID:
-      #/Txhvk1Tl/
-    """
-    tripcode: """
-      # Filter any tripfag
-      #/^!/
-    """
-    capcode: """
-      # Set a custom class for mods:
-      #/Mod$/;highlight:mod;op:yes
-      # Set a custom class for moot:
-      #/Admin$/;highlight:moot;op:yes
-    """
-    email: ""
-    subject: """
-      # Filter Generals on /v/:
-      #/general/i;boards:v;op:only
-    """
-    comment: """
-      # Filter Stallman copypasta on /g/:
-      #/what you're refer+ing to as linux/i;boards:g
-    """
-    flag: ""
-    filename: ""
-    dimensions: """
-      # Highlight potential wallpapers:
-      #/1920x1080/;op:yes;highlight;top:no;boards:w,wg
-    """
-    filesize: ""
-    MD5: ""
   sauces: """
     https://www.google.com/searchbyimage?image_url=%TURL
     http://iqdb.org/?url=%TURL

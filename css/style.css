@@ -300,16 +300,31 @@ body > .desktop:not(hr):not(.navLinks):not(#boardNavDesktop):not(#boardNavDeskto
 .section-main label {
   text-decoration: underline;
 }
-.section-filter ul,
+.filter-item {
+  margin: 5px 0;
+}
+.filter-item-main,
+.filter-item-option {
+  display: flex;
+  align-items: center;
+}
+.filter-item .field[name="filter"] {
+  flex: 1;
+}
+.filter-item .field[name="boards"],
+.filter-item .field[name="class"] {
+  width: 110px;
+}
+.filter-item-options:not([data-result="hide"]) > select[name="stubs"],
+.filter-item-options:not([data-result="highlight"]) > input[name="klass"],
+.filter-item-options:not([data-result="highlight"]) > select[name="pin"] {
+  display: none;
+}
 .section-qr ul {
   padding: 0;
 }
-.section-filter li,
 .section-qr li {
   margin: 10px 40px;
-}
-.section-filter textarea {
-  height: 500px;
 }
 .section-qr textarea {
   height: 200px;

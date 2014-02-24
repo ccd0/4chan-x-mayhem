@@ -1,3 +1,7 @@
+- `Filter` changes:
+ - New filter settings interface.
+ - Multiple content can be filtered at once.
+ - Filter can now either apply partial or exact string matching, along with regular expressions.
 - Compatibility fixes for Greasemonkey v2.
 
 ### 3.20.14 - *2014-06-13*
