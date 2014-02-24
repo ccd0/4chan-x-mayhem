@@ -224,13 +224,20 @@ Filter =
     template  = $ 'template', section
     container = $ '.filter-items', section
     $.get 'filters', [], ({filters}) ->
-      for item in filters
-        $.add container, Filter.makeRow template, item
-      return
+      Filter.makeList section, filters
     $.on $('#new-filter-item', section), 'click', ->
       $.add container, Filter.makeRow template
     $.on $('#save-filter-items', section), 'click', ->
       Filter.saveAllManually container
+    $.on $('#export-filters', section), 'click', Filter.export
+    $.on $('#import-filters', section), 'click', Filter.import
+    $.on $('input[type=file]', section), 'change', Filter.onImport
+  makeList: (section, filters) ->
+    template = $ 'template', section
+    rows = []
+    for item in filters
+      rows.push Filter.makeRow template, item
+    $.add $('.filter-items', section), rows
   makeRow: (template, item) ->
     row     = d.importNode template.content, true
     # main
@@ -317,3 +324,27 @@ Filter =
     items = [list.children...].map (row) -> JSON.parse row.dataset.data
     $.set 'filters', items
     Filter.loadFilters items
+  export: ->
+    $.get 'filters', [], ({filters}) ->
+      Settings.downloadExport 'Filters', {version: g.VERSION, date: Date.now(), filters}
+  import: ->
+    $('input[type=file]', @parentNode).click()
+  onImport: ->
+    return unless file = @files[0]
+    reader  = new FileReader()
+    section = $.x 'ancestor::section', @
+    reader.onload = (e) ->
+      try
+        newFilters = JSON.parse(e.target.result).filters
+      catch err
+        alert 'Import failed due to an error.'
+        c.error err.stack
+        return
+      {length} = newFilters
+      return unless confirm "You are about to add #{length} new filter#{if length is 1 then '' else 's'}, are you sure?"
+      $.get 'filters', [], ({filters}) ->
+        filters.push newFilters...
+        $.set 'filters', filters
+        Filter.makeList section, filters
+        Filter.loadFilters filters
+    reader.readAsText file
