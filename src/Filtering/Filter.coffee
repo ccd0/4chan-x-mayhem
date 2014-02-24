@@ -7,20 +7,21 @@ Filter =
       cb:   @node
 
     # XXX tmp conversion
-    for source in ['comment', 'subject', 'name', 'tripcode', 'email', 'uniqueID', 'filename', 'MD5', 'dimensions', 'filesize', 'capcode', 'flag']
-      <% if (type === 'crx') { %>
-      $.localKeys.push source
-      <% } %>
-      Filter.convert source
+    $.get 'filters', [], ({filters}) ->
+      for source in ['comment', 'subject', 'name', 'tripcode', 'email', 'uniqueID', 'filename', 'MD5', 'dimensions', 'filesize', 'capcode', 'flag']
+        <% if (type === 'crx') { %>
+        $.localKeys.push source
+        <% } %>
+        Filter.convert filters, source
+      return
 
-  convert: (source) ->
+  convert: (filters, source) ->
     $.get source, null, (items) ->
       return if items[source] is null
-      Conf['filters'].push Filter.convertText(items[source])...
-      Filter.loadFilters Conf['filters']
+      filters.push Filter.convertText(items[source], source)...
       $.delete source
-      $.set 'filters', Conf['filters']
-  convertText: (text) ->
+      $.set 'filters', filters
+  convertText: (text, source) ->
     newItems = []
     for line in text.split '\n' when line[0] isnt '#'
       continue unless regexp = line.match /\/(.+)\/(\w*)/

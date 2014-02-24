@@ -223,7 +223,8 @@ Settings =
       delete data.Conf['WatchedThreads']
     for source in ['comment', 'subject', 'name', 'tripcode', 'email', 'uniqueID', 'filename', 'MD5', 'dimensions', 'filesize', 'capcode', 'flag']
       continue unless source of data.Conf
-      (data.Conf.filters or= []).push Filter.convertText(data.Conf[source])...
+      (data.Conf.filters or= []).push Filter.convertText(data.Conf[source], source)...
+      delete data.Conf[source]
     $.clear -> $.set data.Conf
   reset: ->
     if confirm 'Your current settings will be entirely wiped, are you sure?'
