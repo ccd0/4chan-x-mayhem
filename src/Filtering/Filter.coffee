@@ -52,10 +52,11 @@ Filter =
           item.stubs = 'on'
         when 'no'
           item.stubs = 'off'
-      if klass = filter.match(/highlight:(\w+)/)?[1]
-        item.klass = klass
-      if pin = filter.match(/top:(yes|no)/)?[1] or 'yes'
-        item.pin = 'off' if pin is 'no'
+      if item.result is 'highlight'
+        if klass = line.match(/highlight:(\w+)/)?[1]
+          item.klass = klass
+        if pin = line.match(/top:(yes|no)/)?[1] or 'yes'
+          item.pin = 'off' if pin is 'no'
       newItems.push item
     newItems
 
