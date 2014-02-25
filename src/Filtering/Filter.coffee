@@ -218,6 +218,7 @@ Filter =
       $.queueTask ->
         # Wait for the filter list to be filled.
         $.add $('.filter-items', section), row
+        $('[name=filter]', row).focus()
 
   settings: (section) ->
     section.innerHTML = <%= importHTML('General/Settings-section-Filter') %>
@@ -226,7 +227,9 @@ Filter =
     $.get 'filters', [], ({filters}) ->
       Filter.makeList section, filters
     $.on $('#new-filter-item', section), 'click', ->
-      $.add container, Filter.makeRow template
+      row = Filter.makeRow template
+      $.add container, row
+      $('[name=filter]', row).focus()
     $.on $('#save-filter-items', section), 'click', ->
       Filter.saveAllManually container
     $.on $('#export-filters', section), 'click', Filter.export
@@ -239,7 +242,7 @@ Filter =
       rows.push Filter.makeRow template, item
     $.add $('.filter-items', section), rows
   makeRow: (template, item) ->
-    row     = d.importNode template.content, true
+    row     = d.importNode(template.content, true).firstChild
     # main
     post    = $ '[name=post]',    row
     enabled = $ '[name=enabled]', row
@@ -255,7 +258,7 @@ Filter =
     pin     = $ '[name=pin]',     row
 
     if item
-      $('.filter-item',  row).dataset.data   = JSON.stringify item
+      row.dataset.data = JSON.stringify item
       $('[data-result]', row).dataset.result = item.result
       enabled.checked = !item.disabled
       for option in post.options
