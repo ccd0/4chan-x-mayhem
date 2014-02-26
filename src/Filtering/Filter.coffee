@@ -94,16 +94,30 @@ Filter =
 
   node: ->
     return if @isClone
+    matched = []
     for item in Filter.items
       continue unless @isReply and 'reply' in item.post or !@isReply and 'op' in item.post
       for source in item.sources when (value = Filter[source] @) isnt false
         continue unless item.test item.filter, value
         switch item.result
-          when 'hide'
-            @hide "Hidden by filtering the #{source}: #{item.filter}", item.stubs, item.recurs if @isReply or g.VIEW is 'index'
-          when 'highlight'
+          when 'anti-hide'
+            antiHide = true
+          when 'anti-highlight'
+            antiHighlight = true
+          when 'anti-anonymize'
+            antiAnonymize = true
+          else
+            matched.push item
+    for item in matched
+      switch item.result
+        when 'hide'
+          if !antiHide and (@isReply or g.VIEW is 'index')
+            @hide "Hidden by filtering the #{source}: #{item.filter}", item.stubs, item.recurs
+        when 'highlight'
+          if !antiHighlight
             @highlight "Highlighted by filtering the #{source}: #{item.filter}", item.klass, item.pin, item.recurs
-          when 'anonymize'
+        when 'anonymize'
+          if !antiAnonymize
             Anonymize.node.call @
     return
 
@@ -329,7 +343,10 @@ Filter =
       save.disabled = true
     Filter.saveAll list
   saveAll: (list) ->
-    items = [list.children...].map (row) -> JSON.parse row.dataset.data
+    items = [list.children...]
+      .map (row) -> row.dataset.data
+      .filter (data) -> data # new, unsaved rows
+      .map (data) -> JSON.parse data
     $.set 'filters', items
     Filter.loadFilters items
   export: ->
