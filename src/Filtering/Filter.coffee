@@ -273,6 +273,7 @@ Filter =
 
     for node in [enabled, post, sources, result, type, filter, boards, recurs, stubs, klass, pin]
       $.on node, 'change input', Filter.onRowChange
+      $.on node, 'keydown', Filter.keydown
     for name in ['save', 'remove']
       $.on $("[name=#{name}]", row), 'click', Filter[name]
 
@@ -281,6 +282,11 @@ Filter =
     row = $.x 'ancestor::div[@class="filter-item"]', @
     $('[name=save]', row).disabled = row.dataset.data is Filter.getRowData row
     $('[data-result]', row).dataset.result = $('[name=result]', row).value
+  keydown: (e) ->
+    e.stopPropagation()
+    return if e.keyCode isnt 13
+    row = $.x 'ancestor::div[@class="filter-item"]', @
+    $('[name=save]', row).click()
   getRowData: (row) ->
     item = {
       post: [$('[name=post]', row).options...]
