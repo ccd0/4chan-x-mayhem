@@ -87,7 +87,8 @@ Filter =
           item.stubs = item.stubs is 'on' if item.stubs
         when 'highlight'
           item.klass or= 'filter-highlight'
-          item.pin = item.pin isnt 'off'
+          item.pin    = item.pin isnt 'off'
+          item.notify = item.notify is 'on'
 
       newItems.push item
     Filter.items = newItems
@@ -116,10 +117,25 @@ Filter =
         when 'highlight'
           if !antiHighlight
             @highlight "Highlighted by filtering the #{source}: #{item.filter}", item.klass, item.pin, item.recurs
+            Filter.openNotification @ if item.notify
         when 'anonymize'
           if !antiAnonymize
             Anonymize.node.call @
     return
+
+  openNotification: (post, item) ->
+    return unless Header.areNotificationsEnabled
+    notif = new Notification ">>#{post} by #{post.getNameBlock()} got highlighted",
+      body: post.info.comment
+      icon: Favicon.logo
+      tag:  post.fullID
+    notif.onclick = ->
+      Header.scrollToIfNeeded post.nodes.root, true
+      window.focus()
+    notif.onshow = ->
+      setTimeout ->
+        notif.close()
+      , 7 * $.SECOND
 
   partial: (string, value) ->
     -1 isnt value.toLowerCase().indexOf string
@@ -269,6 +285,7 @@ Filter =
     stubs   = $ '[name=stubs]',   row
     klass   = $ '[name=klass]',   row
     pin     = $ '[name=pin]',     row
+    notify  = $ '[name=notify]',  row
 
     if item
       row.dataset.data = JSON.stringify item
@@ -278,14 +295,14 @@ Filter =
         option.selected = option.value in item.post
       for option in sources.options
         option.selected = option.value in item.sources
-      for node in [result, type, boards, recurs, stubs, klass, pin]
+      for node in [result, type, boards, recurs, stubs, klass, pin, notify]
         node.value = item[node.name] if node.name of item
       filter.value = if item.type isnt 'regexp'
         item.filter.replace /\n/g, '\\n'
       else
         item.filter
 
-    for node in [enabled, post, sources, result, type, filter, boards, recurs, stubs, klass, pin]
+    for node in [enabled, post, sources, result, type, filter, boards, recurs, stubs, klass, pin, notify]
       $.on node, 'change input', Filter.onRowChange
       $.on node, 'keydown', Filter.keydown
     for name in ['save', 'remove']
@@ -325,6 +342,7 @@ Filter =
         item.recurs = recurs if recurs = $('[name=recurs]', row).value
         item.klass  = klass  if klass  = $('[name=klass]',  row).value.trim()
         item.pin    = pin    if pin    = $('[name=pin]',    row).value
+        item.notify = notify if notify = $('[name=notify]', row).value
     item.disabled = true unless $('[name=enabled]', row).checked
     JSON.stringify item
   save: ->

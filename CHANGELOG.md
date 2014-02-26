@@ -5,6 +5,7 @@
  - Filters can now anonymize.
  - Filters can now prevent other filters from hiding, highlighting or anonymizing.
  - Filters can now control if hiding/higlighting applies recursively or not.
+ - Highlighting filters can now open desktop notifications.
  - Filters can now be exported, and you can also import additional filters.
 - Compatibility fixes for Greasemonkey v2.
 

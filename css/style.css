@@ -331,7 +331,8 @@ body > .desktop:not(hr):not(.navLinks):not(#boardNavDesktop):not(#boardNavDeskto
 .filter-item-options:not([data-result="hide"]):not([data-result="highlight"]) > select[name="recurs"],
 .filter-item-options:not([data-result="hide"]) > select[name="stubs"],
 .filter-item-options:not([data-result="highlight"]) > input[name="klass"],
-.filter-item-options:not([data-result="highlight"]) > select[name="pin"] {
+.filter-item-options:not([data-result="highlight"]) > select[name="pin"],
+.filter-item-options:not([data-result="highlight"]) > select[name="notify"] {
   display: none;
 }
 .section-qr ul {
