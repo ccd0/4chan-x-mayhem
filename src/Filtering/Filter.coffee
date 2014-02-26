@@ -216,10 +216,8 @@ Filter =
       $('[name=type]',    row).value = 'exact'
       $('[name=filter]',  row).value = Filter[source](Filter.menu.post).replace /\n/g, '\\n'
       $('[name=save]',    row).disabled = false
-      $.queueTask ->
-        # Wait for the filter list to be filled.
-        $.add $('.filter-items', section), row
-        $('[name=filter]', row).focus()
+      $.prepend $('.filter-items', section), row
+      $('[name=filter]', row).focus()
 
   settings: (section) ->
     section.innerHTML = <%= importHTML('General/Settings-section-Filter') %>
@@ -229,7 +227,7 @@ Filter =
       Filter.makeList section, filters
     $.on $('#new-filter-item', section), 'click', ->
       row = Filter.makeRow template
-      $.add container, row
+      $.prepend container, row
       $('[name=filter]', row).focus()
     $.on $('#save-filter-items', section), 'click', ->
       Filter.saveAllManually container

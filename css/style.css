@@ -300,6 +300,14 @@ body > .desktop:not(hr):not(.navLinks):not(#boardNavDesktop):not(#boardNavDeskto
 .section-main label {
   text-decoration: underline;
 }
+.section-filter header {
+  display: flex;
+  align-items: baseline;
+}
+.section-filter .help {
+  flex: 1;
+  text-align: right;
+}
 .filter-items:empty::before {
   content: "No filters";
   display: block;

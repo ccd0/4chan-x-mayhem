@@ -59,12 +59,13 @@
 </div>
 </template>
 <div class="warning" #{if Conf['Filter'] then 'hidden' else ''}><code>Filter</code> is disabled.</div>
-<div>Need help? Read the <a href="<%= meta.repo %>blob/<%= meta.mainBranch %>/docs/filter.md" target="_blank">full guide</a>.</div>
+<header>
+  <button id="new-filter-item">Add new filter</button>
+  <button id="save-filter-items">Save all filters</button>
+  <button id="export-filters">Export filters</button>
+  <button id="import-filters">Import filters</button>
+  <input type="file" hidden>
+  <span class="help">Need help? Read the <a href="<%= meta.repo %>blob/<%= meta.mainBranch %>/docs/filter.md" target="_blank">full guide</a>.</span>
+</header>
 <hr>
 <div class="filter-items"></div>
-<hr>
-<button id="new-filter-item">Add new filter</button>
-<button id="save-filter-items">Save all filters</button>
-<button id="export-filters">Export filters</button>
-<button id="import-filters">Import filters</button>
-<input type="file" hidden>
