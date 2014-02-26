@@ -272,7 +272,7 @@ Filter =
         item.filter
 
     for node in [enabled, post, sources, result, type, filter, boards, recurs, stubs, klass, pin]
-      $.on node, 'change', Filter.onRowChange
+      $.on node, 'change input', Filter.onRowChange
     for name in ['save', 'remove']
       $.on $("[name=#{name}]", row), 'click', Filter[name]
 
